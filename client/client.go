@@ -14,6 +14,7 @@ type Client struct {
     queuedItems   map[string]*QueuePromptResponse
     queuedCount   int
     callbacks     *Callbacks
+    wsc           *WebSocketClient
 }
 
 type Callbacks struct {
@@ -21,16 +22,26 @@ type Callbacks struct {
     OnExecutionStart func(*Client, *QueuePromptResponse)
     OnExecuted       func(*Client, *QueuePromptResponse)
     OnExecuting      func(*Client, *QueuePromptResponse, string)
+    OnProgress       func(*Client, *WSStatusMessageDataProgress)
 }
 
-func NewClient(serverAddress string, serverPort int, callbacks *Callbacks) *Client {
-    return &Client{
+func NewClient(serverAddress string, serverPort int, callbacks *Callbacks) (*Client, error) {
+    res := &Client{
         serverAddress: serverAddress,
         serverPort:    serverPort,
         clientId:      uuid.New().String(),
         queuedItems:   make(map[string]*QueuePromptResponse),
         callbacks:     callbacks,
     }
+    res.wsc = NewWebSocketClient(res)
+    err := res.wsc.Connect(serverAddress, serverPort, res.clientId)
+    if err != nil {
+        return nil, err
+    }
+    go func() {
+        res.wsc.HandleMessages()
+    }()
+    return res, nil
 }
 
 func (c *Client) buildUrl(path string) string {
@@ -46,6 +57,7 @@ func (c *Client) OnMessage(message string) {
 }
 
 func (c *Client) OnWebSocketMessage(msg string) {
+    slog.Info("msg:", "msg", msg)
     message := &WSStatusMessage{}
     err := json.Unmarshal([]byte(msg), message)
     if err != nil {
@@ -78,17 +90,13 @@ func (c *Client) OnWebSocketMessage(msg string) {
             if c.callbacks != nil && c.callbacks.OnExecuting != nil {
                 c.callbacks.OnExecuting(c, qi, s.Node)
             }
-            qi.Messages <- "executing" + s.Node
+            qi.Messages <- "executing " + s.Node
         }
     case "progress":
-        //s := message.Data.(*WSStatusMessageDataProgress)
-        //qi := c.GetQueuedItem(s.PromptID)
-        //if qi != nil {
-        //    if c.callbacks != nil && c.callbacks.OnExecuting != nil {
-        //        c.callbacks.OnExecuting(c, qi, s.Node)
-        //    }
-        //    qi.Messages <- "progress"
-        //}
+        s := message.Data.(*WSStatusMessageDataProgress)
+        if c.callbacks != nil && c.callbacks.OnProgress != nil {
+            c.callbacks.OnProgress(c, s)
+        }
     case "executed":
         s := message.Data.(*WSStatusMessageDataExecuted)
         qi := c.GetQueuedItem(s.PromptID)

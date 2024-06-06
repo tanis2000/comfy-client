@@ -17,7 +17,10 @@ func main() {
             log.Printf("Queue size: %d", queuedItems)
         },
     }
-    c := client.NewClient("localhost", 8188, callbacks)
+    c, err := client.NewClient("localhost", 8188, callbacks)
+    if err != nil {
+        panic(err)
+    }
 
     println("Getting System Stats")
     stats, err := c.GetSystemStats()
@@ -131,29 +134,10 @@ func main() {
     }
     println(res)
 
-    println("Starting the websocket")
-    wsc := client.NewWebSocketClient(c)
-    err = wsc.Connect("localhost", 8188, c.ClientId())
-    if err != nil {
-        panic(err)
-    }
-    println("Pinging the websocket")
-    err = wsc.Ping()
-    if err != nil {
-        panic(err)
-    }
-    go func() {
-        println("Handling messages")
-        wsc.HandleMessages()
-    }()
-
     println("Starting the loop")
     for continueLoop := true; continueLoop; {
         msg := <-res.Messages
         println(msg)
     }
-    err = wsc.Close()
-    if err != nil {
-        panic(err)
-    }
+
 }
