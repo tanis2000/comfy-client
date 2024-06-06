@@ -1,0 +1,227 @@
+{
+  "Map": {
+    "1": {
+      "inputs": {
+        "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+      },
+      "class_type": "CheckpointLoaderSimple",
+      "_meta": {
+        "title": "SDXL base model"
+      }
+    },
+    "10": {
+      "inputs": {
+        "batch_size": 1,
+        "height": 512,
+        "width": 512
+      },
+      "class_type": "EmptyLatentImage",
+      "_meta": {
+        "title": "Empty Latent Image"
+      }
+    },
+    "11": {
+      "inputs": {
+        "add_noise": "enable",
+        "cfg": 7,
+        "end_at_step": 10000,
+        "latent_image": [
+          "9",
+          0
+        ],
+        "model": [
+          "2",
+          0
+        ],
+        "negative": [
+          "8",
+          0
+        ],
+        "noise_seed": 841764457332482,
+        "positive": [
+          "7",
+          0
+        ],
+        "return_with_leftover_noise": "disable",
+        "sampler_name": "dpmpp_2m_sde_gpu",
+        "scheduler": "karras",
+        "start_at_step": 25,
+        "steps": 50
+      },
+      "class_type": "KSamplerAdvanced",
+      "_meta": {
+        "title": "KSampler (Advanced)"
+      }
+    },
+    "12": {
+      "inputs": {
+        "samples": [
+          "9",
+          0
+        ],
+        "vae": [
+          "1",
+          2
+        ]
+      },
+      "class_type": "VAEDecode",
+      "_meta": {
+        "title": "VAE Decode"
+      }
+    },
+    "13": {
+      "inputs": {
+        "samples": [
+          "11",
+          0
+        ],
+        "vae": [
+          "2",
+          2
+        ]
+      },
+      "class_type": "VAEDecode",
+      "_meta": {
+        "title": "VAE Decode"
+      }
+    },
+    "14": {
+      "inputs": {
+        "images": [
+          "12",
+          0
+        ]
+      },
+      "class_type": "PreviewImage",
+      "_meta": {
+        "title": "SDXL image"
+      }
+    },
+    "15": {
+      "inputs": {
+        "images": [
+          "13",
+          0
+        ]
+      },
+      "class_type": "PreviewImage",
+      "_meta": {
+        "title": "SDXL Refine image"
+      }
+    },
+    "2": {
+      "inputs": {
+        "ckpt_name": "sd_xl_refiner_1.0_0.9vae.safetensors"
+      },
+      "class_type": "CheckpointLoaderSimple",
+      "_meta": {
+        "title": "SDXL refine model"
+      }
+    },
+    "3": {
+      "inputs": {
+        "clip": [
+          "1",
+          1
+        ],
+        "crop_h": 0,
+        "crop_w": 0,
+        "height": 1024,
+        "target_height": 1024,
+        "target_width": 1024,
+        "text_g": "Female, 18 years old, Japanese high school uniform, messy brown hair, dark brown eyes, slightly plump physique with soft curves and generous bust size, wide hips and thick thighs, smiling",
+        "text_l": "Female, 18 years old, Japanese high school uniform, messy brown hair, dark brown eyes, slightly plump physique with soft curves and generous bust size, wide hips and thick thighs, smiling",
+        "width": 1024
+      },
+      "class_type": "CLIPTextEncodeSDXL",
+      "_meta": {
+        "title": "SDXL Positive Prompt"
+      }
+    },
+    "5": {
+      "inputs": {
+        "clip": [
+          "1",
+          1
+        ],
+        "crop_h": 0,
+        "crop_w": 0,
+        "height": 1024,
+        "target_height": 1024,
+        "target_width": 1024,
+        "text_g": "text, watermark",
+        "text_l": "text, watermark",
+        "width": 1024
+      },
+      "class_type": "CLIPTextEncodeSDXL",
+      "_meta": {
+        "title": "SDXL Negative Prompt"
+      }
+    },
+    "7": {
+      "inputs": {
+        "ascore": 6.0155578613281255,
+        "clip": [
+          "2",
+          1
+        ],
+        "height": 1024,
+        "text": "Female, 18 years old, Japanese high school uniform, messy brown hair, dark brown eyes, slightly plump physique with soft curves and generous bust size, wide hips and thick thighs",
+        "width": 1024
+      },
+      "class_type": "CLIPTextEncodeSDXLRefiner",
+      "_meta": {
+        "title": "SDXL Refine Positive Prompt"
+      }
+    },
+    "8": {
+      "inputs": {
+        "ascore": 6,
+        "clip": [
+          "2",
+          1
+        ],
+        "height": 860,
+        "text": "text, watermark",
+        "width": 1024
+      },
+      "class_type": "CLIPTextEncodeSDXLRefiner",
+      "_meta": {
+        "title": "SDXL Refine Negative Prompt"
+      }
+    },
+    "9": {
+      "inputs": {
+        "add_noise": "enable",
+        "cfg": 7,
+        "end_at_step": 10000,
+        "latent_image": [
+          "10",
+          0
+        ],
+        "model": [
+          "1",
+          0
+        ],
+        "negative": [
+          "5",
+          0
+        ],
+        "noise_seed": 151928769674064,
+        "positive": [
+          "3",
+          0
+        ],
+        "return_with_leftover_noise": "enable",
+        "sampler_name": "dpmpp_2m_sde_gpu",
+        "scheduler": "karras",
+        "start_at_step": 0,
+        "steps": 25
+      },
+      "class_type": "KSamplerAdvanced",
+      "_meta": {
+        "title": "KSampler (Advanced)"
+      }
+    }
+  }
+}

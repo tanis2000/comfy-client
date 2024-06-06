@@ -1,0 +1,152 @@
+{
+  "1": {
+    "inputs": {
+      "Node name for S\u0026R": "CheckpointLoaderSimple"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "10": {
+    "inputs": {
+      "Node name for S\u0026R": "EmptyLatentImage"
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "11": {
+    "inputs": {
+      "Node name for S\u0026R": "KSamplerAdvanced",
+      "latent_image": [
+        "9",
+        0
+      ],
+      "model": [
+        "2",
+        0
+      ],
+      "negative": [
+        "8",
+        0
+      ],
+      "positive": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "12": {
+    "inputs": {
+      "Node name for S\u0026R": "VAEDecode",
+      "samples": [
+        "9",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "13": {
+    "inputs": {
+      "Node name for S\u0026R": "VAEDecode",
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "14": {
+    "inputs": {
+      "Node name for S\u0026R": "PreviewImage",
+      "images": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "PreviewImage"
+  },
+  "15": {
+    "inputs": {
+      "Node name for S\u0026R": "PreviewImage",
+      "images": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "PreviewImage"
+  },
+  "2": {
+    "inputs": {
+      "Node name for S\u0026R": "CheckpointLoaderSimple"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "3": {
+    "inputs": {
+      "Node name for S\u0026R": "CLIPTextEncodeSDXL",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL"
+  },
+  "5": {
+    "inputs": {
+      "Node name for S\u0026R": "CLIPTextEncodeSDXL",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL"
+  },
+  "7": {
+    "inputs": {
+      "Node name for S\u0026R": "CLIPTextEncodeSDXLRefiner",
+      "clip": [
+        "2",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXLRefiner"
+  },
+  "8": {
+    "inputs": {
+      "Node name for S\u0026R": "CLIPTextEncodeSDXLRefiner",
+      "clip": [
+        "2",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXLRefiner"
+  },
+  "9": {
+    "inputs": {
+      "Node name for S\u0026R": "KSamplerAdvanced",
+      "latent_image": [
+        "10",
+        0
+      ],
+      "model": [
+        "1",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  }
+}
